@@ -51,7 +51,8 @@ logger:
 #########################################
 api:
   reboot_timeout: 15min
-  api_key: !secret api_key
+  encryption:
+    key: !secret api_key
 
 ota:
   platform: esphome

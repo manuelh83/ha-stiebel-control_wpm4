@@ -194,6 +194,7 @@ wifi_password: "YOUR_WIFI_PASSWORD"
 mqtt_broker: "YOUR_MQTT_BROKER_IP"
 mqtt_username: "YOUR_MQTT_USER"
 mqtt_password: "YOUR_MQTT_PASSWORD"
+api_key: "YOUR_API_KEY"
 ```
 
 ### 4. Compile and Upload

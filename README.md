@@ -1,4 +1,5 @@
 --- work in Progress ---
+
 Adjusment for Stiebel Eltron WPL-A 05/07 HK 230 Premium and HSBC200 with Wärmepumpen-Manager WPM 4.
 
 # ha-stiebel-control

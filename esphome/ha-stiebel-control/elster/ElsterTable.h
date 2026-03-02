@@ -1673,8 +1673,8 @@ static const ElsterIndex ElsterTable[] =
   { "TEST_OBJEKT_109", 0x06ae, 0, "Test Objekt 109", NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, false },
   { "TEST_OBJEKT_110", 0x06af, 0, "Test Objekt 110", NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, false },
   { "TEST_OBJEKT_111", 0x06b0, 0, "Test Objekt 111", NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, false },
-  { "TEST_OBJEKT_112", 0x06b1, 0, "Test Objekt 112", NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, false },
-  { "TEST_OBJEKT_113", 0x06b2, 0, "Test Objekt 113", NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, false },
+  { "TEST_OBJEKT_112", 0x06b1, et_dec_val, "Spannung Inverter", "sensor", "VOLTAGE", "V", "measurement", "mdi:current-ac", NULL, NULL, false, true },
+  { "TEST_OBJEKT_113", 0x06b2, et_dec_val, "Strom Inverter",  "sensor", "CURRENT", "A", "measurement", "mdi:current-ac", NULL, NULL, false, true },
   { "TEST_OBJEKT_114", 0x06b3, 0, "Test Objekt 114", NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, false },
   { "TEST_OBJEKT_115", 0x06b4, 0, "Test Objekt 115", NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, false },
   { "TEST_OBJEKT_116", 0x06b5, 0, "Test Objekt 116", NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, false },
@@ -1731,7 +1731,7 @@ static const ElsterIndex ElsterTable[] =
   { "TEST_OBJEKT_167", 0x06e8, 0, "Test Objekt 167", NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, false },
   { "TEST_OBJEKT_168", 0x06e9, 0, "Test Objekt 168", NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, false },
   { "TEST_OBJEKT_169", 0x06ea, 0, "Test Objekt 169", NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, false },
-  { "TEST_OBJEKT_170", 0x06eb, 0, "Test Objekt 170", NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, false },
+  { "TEST_OBJEKT_170", 0x06eb, et_default, "Istdrehzahl Verdichter", "sensor", "FREQUENCY", "Hz", "measurement", "mdi:sine-wave", NULL, NULL, false, true },
   { "TEST_OBJEKT_171", 0x06ec, 0, "Test Objekt 171", NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, false },
   { "TEST_OBJEKT_172", 0x06ed, 0, "Test Objekt 172", NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, false },
   { "TEST_OBJEKT_173", 0x06ee, 0, "Test Objekt 173", NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, false },
@@ -2059,7 +2059,7 @@ static const ElsterIndex ElsterTable[] =
   { "KONFIG_0_BIS_5V", 0x0830, 0, "Konfig 0 Bis 5 V", NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, false },
   { "MESSSTROM_MITTELDRUCK", 0x0831, 0, "Messstrom Mittel Druck", NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, false },
   { "ANZEIGE_MITTELDRUCK", 0x0832, 0, "Anzeige Mittel Druck", NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, false },
-  { "LUEFTERDREHZAHL", 0x0833, 0, "Lüfter Drehzahl", NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, false },
+  { "LUEFTERDREHZAHL", 0x0833, 0, "Lüfterleistung relativ", "sensor", "POWER_FACTOR", "%", "measurement", "mdi:fan", NULL, NULL, false, true },
   { "D_ANTEIL_ZWISCHENEINSPRITZUNG", 0x0834, 0, "D Anteil Zwischeneinspritzung", NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, false },
   { "SOLLWERT_UEBERHITZUNG_ZWISCHENEINSPRITZUNG", 0x0835, 0, "Sollwert Überhitzung Zwischeneinspritzung", NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, false },
   { "GESPEICHERTE_MODULE_LETZTER_INDEX", 0x0836, 0, "Ge Speicherte Module Letzter Index", NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, false },
@@ -2385,7 +2385,7 @@ static const ElsterIndex ElsterTable[] =
   { "EINGANG11"                                   , 0x0a33, 0               ,                                                             NULL,            NULL,          NULL,  NULL,               NULL,                    NULL, NULL, NULL, false, false },
   { "EINGANG12"                                   , 0x0a34, 0               ,                                                             NULL,            NULL,          NULL,  NULL,               NULL,                    NULL, NULL, NULL, false, false },
   { "EINGANG13"                                   , 0x0a35, 0               ,                                                             NULL,            NULL,          NULL,  NULL,               NULL,                    NULL, NULL, NULL, false, false },
-  { "EINGANG14"                                   , 0x0a36, 0               ,                                                             NULL,            NULL,          NULL,  NULL,               NULL,                    NULL, NULL, NULL, false, false },
+  { "EINGANG14"                                   , 0x0a36, et_dec_val      ,                                                             "Vorlauftemperatur WP", "sensor", "temperature", "°C", "measurement", "mdi:thermometer", NULL, NULL, false, true },
   { "EINGANG15"                                   , 0x0a37, 0               ,                                                             NULL,            NULL,          NULL,  NULL,               NULL,                    NULL, NULL, NULL, false, false },
   { "EINGANG16"                                   , 0x0a38, 0               ,                                                             NULL,            NULL,          NULL,  NULL,               NULL,                    NULL, NULL, NULL, false, false },
   { "EINGANG17"                                   , 0x0a39, 0               ,                                                             NULL,            NULL,          NULL,  NULL,               NULL,                    NULL, NULL, NULL, false, false },
@@ -3429,6 +3429,40 @@ static const ElsterIndex ElsterTable[] =
   { "ZEITPROG_4_MO_DO", 0x23b0, 0, "Zeitprog 4 Mo Do", NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, false },
   { "ZEITPROG_4_MO_DO_SCHALT_2", 0x23b1, 0, "Zeitprog 4 Mo Do Schalt 2", NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, false },
   { "ZEITPROG_4_MO_DO_SCHALT_3", 0x23b2, 0, "Zeitprog 4 Mo Do Schalt 3", NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, false },
+  //
+  // Extension M. Huber
+  //
+  { "0x4e6a", 0x4e6a, et_default, "0x4e6a", "sensor", NULL, NULL, "measurement", NULL, NULL, NULL, false, false },
+  { "0x4e8b", 0x4e8b, et_default, "0x4e8b", "sensor", NULL, NULL, "measurement", NULL, NULL, NULL, false, false },
+  { "0x4eaf", 0x4eaf, et_default, "0x4eaf", "sensor", NULL, NULL, "measurement", NULL, NULL, NULL, false, false },
+  { "PUFFERSOLLTEMP", 0x4eb0, et_dec_val, "Puffer Soll Temperatur", "sensor", "temperature", "°C", "measurement", "mdi:thermometer", NULL, NULL, false, true },
+  { "0x4eb3", 0x4eb3, et_default, "0x4eb3", "sensor", NULL, NULL, "measurement", NULL, NULL, NULL, false, false },
+  { "PUFFERISTTEMP", 0x4eb4, et_dec_val, "Puffer Ist Temperatur", "sensor", "temperature", "°C", "measurement", "mdi:thermometer", NULL, NULL, false, true },
+  { "VOLUMENSTROM22", 0x4eda, et_dec_val, "Volumenstrom", "sensor", "VOLUME_FLOW_RATE", "L/min", "measurement", "mdi:waves-arrow-right", NULL, NULL, false, true },
+  { "0x4edb", 0x4edb, et_default, "0x4edb", "sensor", NULL, NULL, "measurement", NULL, NULL, NULL, false, false },
+  { "0x4efa", 0x4efa, et_default, "0x4efa", "sensor", NULL, NULL, "measurement", NULL, NULL, NULL, false, false },
+  { "0x4f0e", 0x4f0e, et_default, "0x4f0e", "sensor", NULL, NULL, "measurement", NULL, NULL, NULL, false, false },
+  { "0x4f0f", 0x4f0f, et_default, "0x4f0f", "sensor", NULL, NULL, "measurement", NULL, NULL, NULL, false, false },
+  { "0x4f10", 0x4f10, et_default, "0x4f10", "sensor", NULL, NULL, "measurement", NULL, NULL, NULL, false, false },
+  { "0x4f1b", 0x4f1b, et_default, "0x4f1b", "sensor", NULL, NULL, "measurement", NULL, NULL, NULL, false, false },
+  { "0x4f30", 0x4f30, et_default, "0x4f30", "sensor", NULL, NULL, "measurement", NULL, NULL, NULL, false, false },
+  { "0x4f31", 0x4f31, et_default, "0x4f31", "sensor", NULL, NULL, "measurement", NULL, NULL, NULL, false, false },
+  { "0x4f32", 0x4f32, et_default, "0x4f32", "sensor", NULL, NULL, "measurement", NULL, NULL, NULL, false, false },
+  { "MINUTE", 0x4f33, et_default, "Minute", "sensor", NULL, "min", "measurement", "mdi:clock-outline", NULL, NULL, false, true },
+  { "STUNDE", 0x4f34, et_default, "Stunde", "sensor", NULL, "h", "measurement", "mdi:clock-outline", NULL, NULL, false, true },
+  { "VORLAUFISTTEMP_NHZ", 0x4f40, et_dec_val, "Vorlauf Ist Temperatur NHZ", "sensor", "temperature", "°C", "measurement", "mdi:thermometer", NULL, NULL, false, true },
+  { "VORLAUFISTTEMP_WP_IWS", 0x4f41, et_dec_val, "Vorlauf Ist Temperatur Wärmepumpe", "sensor", "temperature", "°C", "measurement", "mdi:thermometer", NULL, NULL, false, true },
+  { "RUECKLAUFISTTEMP_WP_IWS", 0x4f43, et_dec_val, "Rücklauf Ist Temperatur Wärmepumpe", "sensor", "temperature", "°C", "measurement", "mdi:thermometer", NULL, NULL, false, true },
+  { "0x4f47", 0x4f47, et_default, "0x4f47", "sensor", NULL, NULL, "measurement", NULL, NULL, NULL, false, false },
+  { "HEIZUNGSDRUCK", 0x4f46, et_cent_val, "Heizungsdruck", "sensor", "PRESSURE", "bar", "measurement", "mdi:gauge", NULL, NULL, false, true },
+  { "VOLUMENSTROM2", 0x4f47, et_cent_val, "Volumenstrom", "sensor", "VOLUME_FLOW_RATE", "L/min", "measurement", "mdi:waves-arrow-right", NULL, NULL, false, true },
+  { "0x504b", 0x504b, et_default, "0x504b", "sensor", NULL, NULL, "measurement", NULL, NULL, NULL, false, false },
+  { "0x504c", 0x504c, et_default, "0x504c", "sensor", NULL, NULL, "measurement", NULL, NULL, NULL, false, false },
+  { "0x504d", 0x504d, et_default, "0x504d", "sensor", NULL, NULL, "measurement", NULL, NULL, NULL, false, false },
+  { "0x504e", 0x504e, et_default, "0x504e", "sensor", NULL, NULL, "measurement", NULL, NULL, NULL, false, false },
+  //
+  // End Extension M. Huber
+  //
   { "HF_MONITOR_TYP", 0xc34f, 0, "Hf Monitor Typ", NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, false },
   { "START_BEREICH_SOFTWARE_SIMULATION", 0xc350, 0, "Start Bereich Software Simulation", NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, false },
   { "SOFTWARE_SIMULATION_0", 0xc351, 0, "Software Simulation 0", NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, false },
@@ -3790,6 +3824,15 @@ static const ElsterIndex ElsterTable[] =
   { "INFOBLOCK_4", 0xfe05, 0, "Infoblock 4", NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, false },
   { "INFOBLOCK_5", 0xfe06, 0, "Infoblock 5", NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, false },
   { "INFOBLOCK_6", 0xfe07, 0, "Infoblock 6", NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, false },
+  //
+  // Extension M. Huber
+  //
+  { "0xfff0", 0xfff0, et_default, "0xfff0", "sensor", NULL, NULL, "measurement", NULL, NULL, NULL, false, false },
+  { "0xfff1", 0xfff1, et_default, "0xfff1", "sensor", NULL, NULL, "measurement", NULL, NULL, NULL, false, false },
+  { "0xfff2", 0xfff2, et_default, "0xfff2", "sensor", NULL, NULL, "measurement", NULL, NULL, NULL, false, false },
+  //
+  // End Extension M. Huber
+  //
 };
 
 static const ErrorIndex ErrorList[] =

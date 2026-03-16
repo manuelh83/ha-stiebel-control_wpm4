@@ -45,7 +45,11 @@ typedef struct
 static const CanMember CanMembers[] =
     {
         //  Name  CanId
+        {"WPM_MASTER", 0x80},
+        {"WAERMEPUMPE", 0x100},
         {"KESSEL", 0x180},
+        {"HEIZKREIS_1", 0x201},
+        {"HEIZKREIS_2", 0x202},
         {"ATEZ", 0x280},
         {"BEDIENMODUL_1", 0x300},
         {"BEDIENMODUL_2", 0x301},
@@ -54,6 +58,7 @@ static const CanMember CanMembers[] =
         {"RAUMFERNFUEHLER", 0x400},
         {"MANAGER", 0x480},
         {"HEIZMODUL", 0x500},
+        {"HEIZMODUL_ERWEITERUNG", 0x514},
         {"BUSKOPPLER", 0x580},
         {"MISCHERMODUL_1", 0x600},
         {"MISCHERMODUL_2", 0x601},
@@ -67,7 +72,11 @@ static const CanMember CanMembers[] =
 typedef enum
 {
     // Die Reihenfolge muss mit CanMembers übereinstimmen!
-    cm_kessel = 0,
+    cm_wpm_master = 0,
+    cm_waermepumpe,
+    cm_kessel,
+    cm_heizkreis_1,
+    cm_heizkreis_2,
     cm_atez,
     cm_bedienmodul_1,
     cm_bedienmodul_2,
@@ -76,6 +85,7 @@ typedef enum
     cm_raumfernfuehler,
     cm_manager,
     cm_heizmodul,
+	cm_heizmodul_erweiterung,
     cm_buskoppler,
     cm_mischermodul_1,
     cm_mischermodul_2,
@@ -337,6 +347,8 @@ inline void getTypeDefaults(ElsterType type, const char*& component, const char*
     switch(type) {
         case et_dec_val:
         case et_cent_val:
+            component = "sensor"; deviceClass = ""; unit = ""; stateClass = "measurement"; icon = "mdi:gauge";
+            break;
         case et_mil_val:
             component = "sensor"; deviceClass = "temperature"; unit = "°C"; stateClass = "measurement"; icon = "mdi:thermometer";
             break;
@@ -385,18 +397,22 @@ const ElsterIndex *processCanMessage(const std::vector<uint8_t> &msg, uint32_t c
     uint8_t byte1;
     uint8_t byte2;
     char charValue[16];
+    unsigned short HelpIndex;
 
     if (msg[2] == 0xfa)
     {
         byte1 = msg[5];
         byte2 = msg[6];
         ei = GetElsterIndex(msg[4] + (msg[3] << 8));
+        HelpIndex = msg[4] + (msg[3] << 8);
     }
     else
     {
         byte1 = msg[3];
         byte2 = msg[4];
         ei = GetElsterIndex(msg[2]);
+        HelpIndex = msg[2];
+
     }
 
     switch (ei->Type)
@@ -413,6 +429,14 @@ const ElsterIndex *processCanMessage(const std::vector<uint8_t> &msg, uint32_t c
     }
 
     ESP_LOGI("processCanMessage()", "%s (0x%02x):\t%s:\t%s\t(%s)", cm.Name, cm.CanId, ei->Name, charValue, ElsterTypeStr[ei->Type]);
+    //DEBUG Test
+    if (ei->Name == "INDEX_NOT_FOUND"){
+        //ESP_LOGI("---------");
+        ESP_LOGI("processCanMessage()", "%s (0x%02x):\tSearchIndex: %#06x:\tSignalValue: %s:\tElsterType: (%s)", cm.Name, cm.CanId, HelpIndex, charValue, ElsterTypeStr[ei->Type]);
+        //readSignal(&cm, &ei);
+        //ESP_LOGI("---------");
+    }
+    //END DEBUG TEST
 
     signalValue = charValue;
     return ei;
@@ -1052,14 +1076,25 @@ void publishMqttDiscovery(const CanMember &cm, const ElsterIndex *ei) {
     
     // Convert CAN member name to friendly German name
     const char* canMemberFriendlyName = cm.Name;
-    if (strcmp(cm.Name, "KESSEL") == 0) canMemberFriendlyName = "Kessel";
-    else if (strcmp(cm.Name, "MANAGER") == 0) canMemberFriendlyName = "Manager";
-    else if (strcmp(cm.Name, "HEIZMODUL") == 0) canMemberFriendlyName = "Heizmodul";
-    else if (strcmp(cm.Name, "FEHLERSPEICHER") == 0) canMemberFriendlyName = "Fehlerspeicher";
-    else if (strcmp(cm.Name, "MIXER1") == 0) canMemberFriendlyName = "Mischer 1";
-    else if (strcmp(cm.Name, "MIXER2") == 0) canMemberFriendlyName = "Mischer 2";
-    else if (strcmp(cm.Name, "WMZ1") == 0) canMemberFriendlyName = "Wärmemengenzähler 1";
-    else if (strcmp(cm.Name, "WMZ2") == 0) canMemberFriendlyName = "Wärmemengenzähler 2";
+    if (strcmp(cm.Name, "KESSEL") == 0) canMemberFriendlyName = "Stiebel Kessel";
+    else if (strcmp(cm.Name, "MANAGER") == 0) canMemberFriendlyName = "Stiebel Manager";
+    else if (strcmp(cm.Name, "HEIZMODUL") == 0) canMemberFriendlyName = "Stiebel Heizmodul";
+    else if (strcmp(cm.Name, "FEHLERSPEICHER") == 0) canMemberFriendlyName = "Stiebel Fehlerspeicher";
+    else if (strcmp(cm.Name, "MIXER1") == 0) canMemberFriendlyName = "Stiebel Mischer 1";
+    else if (strcmp(cm.Name, "MIXER2") == 0) canMemberFriendlyName = "Stiebel Mischer 2";
+    else if (strcmp(cm.Name, "WMZ1") == 0) canMemberFriendlyName = "Stiebel Wärmemengenzähler 1";
+    else if (strcmp(cm.Name, "WMZ2") == 0) canMemberFriendlyName = "Stiebel Wärmemengenzähler 2";
+    else if (strcmp(cm.Name, "WPM_MASTER") == 0) canMemberFriendlyName = "Stiebel Wärmepumpenmanager Master";
+    else if (strcmp(cm.Name, "WAERMEPUMPE") == 0) canMemberFriendlyName = "Stiebel Wärmepumpe";
+    else if (strcmp(cm.Name, "HEIZKREIS_1") == 0) canMemberFriendlyName = "Stiebel Heizkreis 1";
+    else if (strcmp(cm.Name, "HEIZKREIS_2") == 0) canMemberFriendlyName = "Stiebel Heizkreis 2";
+    else if (strcmp(cm.Name, "MISCHERMODUL_1") == 0) canMemberFriendlyName = "Stiebel Mischermodul 1";
+    else if (strcmp(cm.Name, "MISCHERMODUL_2") == 0) canMemberFriendlyName = "Stiebel Mischermodul 2";
+    else if (strcmp(cm.Name, "MISCHERMODUL_3") == 0) canMemberFriendlyName = "Stiebel Mischermodul 3";
+    else if (strcmp(cm.Name, "MISCHERMODUL_4") == 0) canMemberFriendlyName = "Stiebel Mischermodul 4";
+    else if (strcmp(cm.Name, "HEIZMODUL_ERWEITERUNG") == 0) canMemberFriendlyName = "Stiebel Heizmodulerweiterung";
+    else if (strcmp(cm.Name, "OTHER") == 0) canMemberFriendlyName = "Stiebel Weitere";
+
     
     payload << ",\"device\":{\"identifiers\":[\"" << canMemberDeviceId << "\"],"
             << "\"name\":\"" << canMemberFriendlyName << "\","

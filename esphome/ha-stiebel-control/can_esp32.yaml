@@ -15,7 +15,7 @@ canbus:
     rx_pin: ${can_rx_pin}
     can_id: ${can_id_pc}
     use_extended_id: false
-    # changed the standard bit_rate of 20kbps to 50kbps due to the clamp usage recommendation on the wpm4 (X1.2 and X1.18) by the manufactorer
+    # changed the standard bit_rate of 20kbps to 50kbps due to the clamp usage recommendation on the wpm4 (X1.2 and X1.18) by the manufacturer
     bit_rate: 50kbps 
     # Increased buffer sizes to prevent overflows
     # ESP32-S3 has much larger buffers than MCP2515 (2 RX buffers)

@@ -40,7 +40,7 @@ esphome:
 #                                       #
 #########################################
 logger:
-  level: INFO
+  level: DEBUG #INFO
   baud_rate: 115200
 
 

@@ -70,9 +70,14 @@ Home Assistant
 
 - **ESP32 acts as**: `PC` (0x680) on CAN bus
 - **CAN Members**:
+  - `WPM_MASTER` (0x80): heat pump manager master
+  - `WAERMEPUMPE` (0x100): heat pump
   - `KESSEL` (0x180): Boiler/storage tank
+  - `HEIZKREIS_1` (0x201): heating circuit 1
+  - `HEIZKREIS_2` (0x202): heating circuit 2
   - `MANAGER` (0x480): Main controller
   - `HEIZMODUL` (0x500): Heat pump module
+  - `HEIZMODUL_ERWEITERUNG` (0x514): heat pump modul extension
 - **Communication**: Universal frame handler processes all CAN IDs with mask 0
 - **Protocol**: Elster index-based read/write operations
 
